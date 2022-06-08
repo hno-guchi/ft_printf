@@ -1,6 +1,6 @@
 #include "ft_printf.h"
 
-size_t	ft_strlen_s(char *s)
+size_t	ftp_strlen_s(char *s)
 {
 	size_t	len;
 

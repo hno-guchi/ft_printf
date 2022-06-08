@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ftp_tolower_all.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/03 19:34:31 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/08 18:16:31 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/06/08 11:14:44 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/06/08 17:35:59 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-int	ft_printf(const char *input, ...)
+char	*ftp_tolower_all(char *c)
 {
-	const char	*save;
-	va_list		args;
-	int			num;
+	int	i;
 
-	num = 0;
-	save = ft_strdup(input);
-	if (save == NULL)
-		return (0);
-	va_start(args, input);
-	num = ftp_count_output(save, args);
-	va_end(args);
-	free((char *)save);
-	return (num);
+	i = 0;
+	while (c[i] != '\0')
+	{
+		c[i] = ft_tolower(c[i]);
+		i += 1;
+	}
+	return (c);
 }

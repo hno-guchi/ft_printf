@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ftp_treat_hexa.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/03 19:34:31 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/08 18:16:31 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/06/08 17:04:17 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/06/08 17:07:15 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "libft.h"
 
-int	ft_printf(const char *input, ...)
+int	ftp_treat_hexa(unsigned int i, int f)
 {
-	const char	*save;
-	va_list		args;
-	int			num;
+	char	*hex;
+	int		n;
 
-	num = 0;
-	save = ft_strdup(input);
-	if (save == NULL)
-		return (0);
-	va_start(args, input);
-	num = ftp_count_output(save, args);
-	va_end(args);
-	free((char *)save);
-	return (num);
+	if (!i)
+		i = 0;
+	hex = ftp_point_base((unsigned long long)i, 16);
+	if (f == 1)
+		hex = ftp_tolower_all(hex);
+	n = ftp_putstr_count(hex);
+	free(hex);
+	return (n);
 }

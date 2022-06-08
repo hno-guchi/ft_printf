@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ftp_treat_char.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/03 19:34:31 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/08 18:16:31 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/06/08 11:19:59 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/06/08 17:36:24 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-int	ft_printf(const char *input, ...)
+int	ftp_treat_char(char c)
 {
-	const char	*save;
-	va_list		args;
-	int			num;
-
-	num = 0;
-	save = ft_strdup(input);
-	if (save == NULL)
-		return (0);
-	va_start(args, input);
-	num = ftp_count_output(save, args);
-	va_end(args);
-	free((char *)save);
-	return (num);
+	ft_putchar_fd(c, 1);
+	return (1);
 }

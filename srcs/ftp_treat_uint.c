@@ -1,31 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ftp_treat_uint.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/03 19:34:31 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/08 18:16:31 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/06/08 16:57:13 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/06/08 19:55:11 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "libft.h"
 
-int	ft_printf(const char *input, ...)
+static int	put_unbr_count(unsigned long long n)
 {
-	const char	*save;
-	va_list		args;
-	int			num;
+	char				str;
+	unsigned long long	tmp;
+	size_t				t;
 
-	num = 0;
-	save = ft_strdup(input);
-	if (save == NULL)
-		return (0);
-	va_start(args, input);
-	num = ftp_count_output(save, args);
-	va_end(args);
-	free((char *)save);
-	return (num);
+	tmp = n;
+	t = 0;
+	while (9 < tmp)
+	{
+		tmp = tmp / 10;
+		t += 1;
+	}
+	if (9 < n)
+		put_unbr_count(n / 10);
+	// str = '0' + n % 10;
+	str = (n % 10) + '0';
+	write(1, &str, 1);
+	return (t+1);
+}
+
+int	ftp_treat_uint(unsigned long long uint)
+{
+	int	n;
+
+	n = 0;
+	// n = put_unbr_count(uint, 1);
+	n = put_unbr_count(uint);
+	return (n);
 }

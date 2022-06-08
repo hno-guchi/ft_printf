@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ftp_treat_point.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/03 19:34:31 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/08 18:16:31 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/06/08 12:27:30 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/06/08 12:30:12 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "libft.h"
 
-int	ft_printf(const char *input, ...)
+int	ftp_treat_point(unsigned long long point)
 {
-	const char	*save;
-	va_list		args;
-	int			num;
+	char	*p;
+	int		n;
 
-	num = 0;
-	save = ft_strdup(input);
-	if (save == NULL)
-		return (0);
-	va_start(args, input);
-	num = ftp_count_output(save, args);
-	va_end(args);
-	free((char *)save);
-	return (num);
+	p = ftp_tolower_all(ftp_point_base(point, 16));
+	n = ftp_putstr_count("0x");
+	n += ftp_putstr_count(p);
+	free(p);
+	return (n);
 }
