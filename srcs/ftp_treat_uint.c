@@ -6,12 +6,24 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:57:13 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/08 19:55:11 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/06/09 12:22:34 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
+int	ftp_treat_uint(unsigned long long uint)
+{
+	int	n;
+
+	n = 0;
+	// n = put_unbr_count(uint, 1);
+	// n = put_unbr_count(uint);
+	ftp_putnbr_base((unsigned int)uint, "0123456789");
+	return (n);
+}
+
+/*
 static int	put_unbr_count(unsigned long long n)
 {
 	char				str;
@@ -32,13 +44,4 @@ static int	put_unbr_count(unsigned long long n)
 	write(1, &str, 1);
 	return (t+1);
 }
-
-int	ftp_treat_uint(unsigned long long uint)
-{
-	int	n;
-
-	n = 0;
-	// n = put_unbr_count(uint, 1);
-	n = put_unbr_count(uint);
-	return (n);
-}
+*/

@@ -53,5 +53,7 @@ dkms.conf
 
 printfTester
 my_printfTester
+sample
 main.c
 test.c
+bit.c

@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 21:45:56 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/08 19:56:01 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/06/09 12:23:14 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 int		ft_printf(const char *input, ...);
 int		ftp_treat_something(int c, va_list args);
 int		ftp_count_output(const char *save, va_list args);
-// void	ftp_putnbr_base(long long int nbr, char *base);
+//void	ftp_putnbr_base(unsigned long long nbr, char *base);
+void	ftp_putnbr_base(unsigned int nbr, char *base);
 char	*ftp_point_base(unsigned long long point, int base);
 int		ftp_putstr_count(char *c);
 char	*ftp_tolower_all(char *c);
