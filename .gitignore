@@ -52,6 +52,7 @@ Mkfile.old
 dkms.conf
 
 printfTester
+ft_printf_tester
 my_printfTester
 sample
 main.c
