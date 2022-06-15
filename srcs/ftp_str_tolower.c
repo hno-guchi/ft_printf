@@ -1,42 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_treat_string.c                                 :+:      :+:    :+:   */
+/*   ftp_tolower.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/08 12:24:56 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/15 13:30:20 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/06/08 11:14:44 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/06/15 18:41:03 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-// int	ftp_treat_string(char *str, size_t len)
-char	*ftp_treat_string(char *va_s, char *bu_s, size_t *b_len)
+char	*ftp_str_tolower(char *c)
 {
-	size_t	v_len;
-	char	*buf;
+	int	i;
 
-	v_len = 0;
-	if (va_s == NULL)
-		va_s = "(null)";
-	v_len = ft_strlen(va_s);
-	buf = ftp_strnjoin(bu_s, va_s, *b_len, v_len);
-	*b_len += v_len;
-	return (buf);
+	i = 0;
+	while (c[i] != '\0')
+	{
+		c[i] = ft_tolower(c[i]);
+		i += 1;
+	}
+	return (c);
 }
-
-/*
-	int		n;
-
-	if (str == NULL)
-		str = "(null)";
-	n = ft_strlen(str);
-	if (INT_MAX <= (len + n))
-		return (-1);
-	(void)write(1, str, n);
-	return (n);
-	*/
-

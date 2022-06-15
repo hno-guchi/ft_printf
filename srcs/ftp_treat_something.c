@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:26:31 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/10 19:14:30 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/06/15 15:39:57 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,20 @@
 
 // int	ftp_treat_something(int c, va_list args)
 // int	ftp_treat_something(size_t len, int c, va_list args)
-char	*ftp_treat_something(char *s, int c, va_list args, size_t *len)
+char	*ftp_treat_something(char *s, size_t *len, int c, va_list args)
 {
-	// int		n;
+	size_t	n;
 	char	*buf;
 
-	// n = 0;
+	n = 0;
+	buf = NULL;
 	if (c == 'c')
-		buf = ftp_treat_char(s, va_arg(args, int), len);
+		buf = ftp_treat_char(va_arg(args, int), s, len);
 	else if (c == 's')
-		buf = ftp_treat_string(va_arg(args, char *), len);
+		buf = ftp_treat_string(va_arg(args, char *), s, len);
 	else if (c == 'p')
-		n = ftp_treat_point((unsigned long long)va_arg(args, void *));
+		// n = ftp_treat_point((unsigned long long)va_arg(args, void *));
+		buf = ftp_treat_point((unsigned long long)va_arg(args, void *), s, len);
 	else if (c == 'd' || c == 'i')
 		n = ftp_treat_int(va_arg(args, int));
 	else if (c == 'u')
@@ -36,5 +38,6 @@ char	*ftp_treat_something(char *s, int c, va_list args, size_t *len)
 		n = ftp_treat_hexa(va_arg(args, unsigned int), 2);
 	else if (c == '%')
 		n = ftp_putstr_count("%");
+	(void)n;
 	return (buf);
 }

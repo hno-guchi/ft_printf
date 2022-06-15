@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:18:52 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/10 19:12:27 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/06/15 17:36:33 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ size_t	ftp_strclen(const char *s, char c)
 	return (len);
 }
 
+/*
 char	*ftp_strndup(const char *s1, size_t len)
 {
 	char	*temp;
@@ -35,83 +36,70 @@ char	*ftp_strndup(const char *s1, size_t len)
 	(void)ft_strlcpy(temp, s1, len + 1);
 	return (temp);
 }
-
-void	ftp_free_null(char **s)
-{
-	if (s[0] != NULL)
-		free(s[0]);
-	s[0] = NULL;
-	return ;
-}
+*/
 
 int	ftp_count_output(const char *save, va_list args)
 {
 	size_t	i;
-	size_t	buf_len;
-	size_t	total_len;
+	size_t	buf_len[1];
+	size_t	total_len[1];
 	char	*buf;
 
 	i = 0;
-	buf_len = 0;
-	total_len = 0;
+	buf_len[0] = 0;
+	total_len[0] = 0;
 	buf = NULL;
 	while (save[i] != '\0')
 	{
-		if (save[i] != '%')
-		{
-			buf_len = ftp_strclen(&save[i], '%');
-			buf = ftp_strndup(&save[i], buf_len);
-			if (buf == NULL)
-				return (-1);
-			// if ((total_len + buf_len) < INT_MAX)
-			// 	(void)write(1, buf, buf_len);
-			// ftp_free_null(&buf);
-			i += buf_len - 1;
-		}
-		else if (save[i] == '%')
+		buf_len[0] = ftp_strclen(&save[i], '%');
+		buf = ftp_strndup(&save[i], buf_len[0]);
+		if (buf == NULL)
+			return (-1);
+		i += buf_len[0];
+		if (save[i] == '%')
 		{
 			i += 1;
-			buf = ftp_treat_something(buf, save[i], args, &buf_len);
-			// buf_len = ftp_treat_something(total_len, save[i], args);
+			buf = ftp_treat_something(buf, buf_len, save[i], args);
+			if (buf == NULL)
+				return (-1);
 		}
-		i += 1;
-		// if (buf_len == -1)
-		// 	return (-1);
-		total_len += buf_len;
-		// if ((total_len + write_len) < INT_MAX)
-		// 	(void)write(1, write_str, write_len);
-		// ftp_free_null(&write_str);
-		if (save[i] == '\0')
-			return (total_len);
+		total_len[0] += buf_len[0];
+		if (INT_MAX < total_len[0])
+		{
+			(void)ftp_free_null(&buf);
+			return (-1);
+		}
+		(void)write(1, buf, buf_len[0]);
+		(void)ftp_free_null(&buf);
+		if (save[i] != '\0')
+			i += 1;
 	}
-
-	return (total_len);
+	return (total_len[0]);
 }
 
 /*
 	while (save[i] != '\0')
 	{
+		buf_len = ftp_strclen(&save[i], '%');
+		// if (buf_len == -1)
+		// 	return (-1);
+		buf = ftp_strndup(&save[i], buf_len);
+		if (buf == NULL)
+			return (-1);
+		if ((total_len + buf_len) < INT_MAX)
+			(void)write(1, buf, buf_len);
+		ftp_free_null(&buf);
+		i += buf_len;
+		total_len += buf_len;
 		if (save[i] == '%')
 		{
 			i += 1;
 			buf_len = ftp_treat_something(total_len, save[i], args);
-		}
-		else
-		{
-			buf_len = ftp_strclen(&save[i], '%');
-			buf = ftp_strndup(&save[i], buf_len);
-			if (buf == NULL)
+			if (buf_len == -1)
 				return (-1);
-			if ((total_len + buf_len) < INT_MAX)
-				(void)write(1, buf, buf_len);
-			ftp_free_null(&buf);
-			i += buf_len - 1;
+			total_len += buf_len;
 		}
-		i += 1;
-		if (buf_len == -1)
-			return (-1);
-		total_len += buf_len;
-		if (save[i] == '\0')
-			return (total_len);
+		if (save[i] != '\0')
+			i += 1;
 	}
 */
