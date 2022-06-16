@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ftp_free_null.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/03 19:34:31 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/16 19:15:17 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/06/15 11:43:52 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/06/15 11:46:11 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "libft.h"
 
-int	ft_printf(const char *input, ...)
+char	*ftp_free_null(char **s)
 {
-	const char	*save;
-	va_list		args;
-	int			num;
-
-	num = 0;
-	save = ft_strdup(input);
-	if (save == NULL)
-		return (0);
-	va_start(args, input);
-	num = ftp_outputstr_count(save, args);
-	va_end(args);
-	free((char *)save);
-	return (num);
+	if (s[0] != NULL)
+	{
+		free(s[0]);
+		s[0] = NULL;
+	}
+	return (NULL);
 }

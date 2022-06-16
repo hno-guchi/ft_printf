@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ftp_conv_c.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/03 19:34:31 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/16 19:15:17 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/06/08 11:19:59 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/06/16 15:15:03 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-int	ft_printf(const char *input, ...)
+char	*ftp_conv_c(char c, char *buf, size_t *b_len)
 {
-	const char	*save;
-	va_list		args;
-	int			num;
+	char	*dst;
 
-	num = 0;
-	save = ft_strdup(input);
-	if (save == NULL)
-		return (0);
-	va_start(args, input);
-	num = ftp_outputstr_count(save, args);
-	va_end(args);
-	free((char *)save);
-	return (num);
+	dst = ftp_strnjoin(buf, &c, *b_len, 1);
+	*b_len += 1;
+	return (dst);
 }

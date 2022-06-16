@@ -1,11 +1,14 @@
 NAME = libftprintf.a
 
 SRCS = ft_printf.c \
-	ftp_outputstr_count.c ftp_check_convs.c \
-	ftp_conv_c.c ftp_conv_s.c ftp_conv_p.c ftp_conv_d_i.c ftp_conv_u.c ftp_conv_x.c \
-	ftp_strndup.c ftp_strnjoin.c \
-	ftp_itoa_count.c ftp_ull_itoa_base.c \
-	ftp_str_tolower.c ftp_free_null.c
+	ftp_change_base.c ftp_count_output.c \
+	ftp_free_null.c ftp_str_tolower.c ftp_strndup.c \
+	ftp_strnjoin.c ftp_ull_itoa_base.c ftp_itoa_count.c \
+	ftp_treat_char.c ftp_treat_hexa.c ftp_treat_int.c \
+	ftp_treat_point.c ftp_treat_something.c ftp_treat_string.c \
+	ftp_treat_uint.c \
+	ftp_putstr_count.c ftp_putnbr_base.c ftp_tolower_all.c
+	# ftp_strlen_s.c
 
 BONUS_SRCS = bonus.c
 OBJS = $(addprefix srcs/, $(SRCS:%.c=%.o))
