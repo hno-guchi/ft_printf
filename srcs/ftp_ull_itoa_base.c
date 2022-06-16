@@ -6,14 +6,13 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:31:37 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/15 19:19:34 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/06/15 21:52:03 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-// static char	*change_base(unsigned long long us, int b, char *r, int c)
 static char	*change_base(unsigned long long ull, int b, char *s, size_t n)
 {
 	while (ull != 0)
@@ -32,9 +31,7 @@ char	*ftp_ull_itoa_base(unsigned long long ull, int base, size_t *len)
 {
 	char				*ull_str;
 	unsigned long long	ull_clone;
-	// int					count;
 
-	// count = 0;
 	*len = 0;
 	ull_clone = ull;
 	if (ull == 0)

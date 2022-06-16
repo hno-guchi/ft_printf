@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ftp_conv_c.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/25 12:11:47 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/09 18:34:56 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/06/08 11:19:59 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/06/16 15:15:03 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "ft_printf.h"
+#include "libft.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 2048
-# endif
+char	*ftp_conv_c(char c, char *buf, size_t *b_len)
+{
+	char	*dst;
 
-# include <unistd.h>
-# include <stddef.h>
-# include <stdlib.h>
-
-size_t	gnl_strclen(const char *s, int c);
-char	*gnl_free_null(char **s);
-void	*gnl_memmove(void *dst, const void *src, size_t len);
-char	*gnl_strnjoin(char *s1, char *s2, size_t s1_len, size_t s2_len);
-char	*get_next_line(int fd);
-
-#endif
+	dst = ftp_strnjoin(buf, &c, *b_len, 1);
+	*b_len += 1;
+	return (dst);
+}
