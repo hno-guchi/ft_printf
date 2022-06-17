@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 19:34:31 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/17 09:36:36 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/06/17 18:39:26 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,24 @@
 
 int	ft_printf(const char *input, ...)
 {
+	int			error_flag;
+	size_t		print_len;
 	const char	*save;
 	va_list		args;
-	int			num;
 
-	num = 0;
+	error_flag = 0;
+	print_len = 0;
 	save = ft_strdup(input);
 	if (save == NULL)
-		return (0);
+		return (-1);
+		// return (0);
 	va_start(args, input);
-	num = ftp_outputstr_count(save, args);
+	error_flag = ftp_outputstr_count(save, args, &print_len);
 	va_end(args);
 	free((char *)save);
-	return (num);
+	if (error_flag == -1)
+		return (error_flag);
+	return ((int)print_len);
 }
 
 /*

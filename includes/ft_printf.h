@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 21:45:56 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/16 20:29:10 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/06/17 18:49:38 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@
 # include <stdarg.h>
 
 int		ft_printf(const char *input, ...);
-int		ftp_outputstr_count(const char *save, va_list args);
-char	*ftp_check_convs(char *buf, size_t *b_len, int c, va_list args);
+// int		ftp_outputstr_count(const char *save, va_list args);
+int	ftp_outputstr_count(const char *save, va_list args, size_t *print_len);
+char	*ftp_convert_format_str(char *buf, size_t *b_len, int c, va_list args);
 char	*ftp_conv_c(char c, char *buf, size_t *b_len);
 char	*ftp_conv_s(char *va_s, char *buf, size_t *b_len);
 char	*ftp_conv_p(unsigned long long point, char *buf, size_t *b_len);
