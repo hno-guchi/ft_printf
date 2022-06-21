@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_strndup.c                                      :+:      :+:    :+:   */
+/*   ftp_not_conversions.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/15 17:35:40 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/17 17:24:40 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/06/21 18:05:37 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/06/21 18:06:02 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-char	*ftp_strndup(const char *s1, size_t len)
+ssize_t	ftp_not_conversions(char *buf, size_t *p_len)
 {
-	char	*duplicate;
+	size_t	buf_len;
 
-	duplicate = (char *)ft_calloc(len + 1, sizeof(char));
-	if (duplicate == NULL)
-		return (NULL);
-	(void)ft_strlcpy(duplicate, s1, len + 1);
-	return (duplicate);
+	buf_len = ft_strlen(buf);
+	if ((*p_len + buf_len) < INT_MAX)
+	{
+		if (write(1, buf, buf_len) == -1)
+			return (-1);
+		*p_len += buf_len;
+		return (1);
+	}
+	return (-1);
 }

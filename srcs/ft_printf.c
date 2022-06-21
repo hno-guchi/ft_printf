@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 19:34:31 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/17 18:39:26 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/06/21 18:09:12 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ int	ft_printf(const char *input, ...)
 	save = ft_strdup(input);
 	if (save == NULL)
 		return (-1);
-		// return (0);
 	va_start(args, input);
 	error_flag = ftp_outputstr_count(save, args, &print_len);
 	va_end(args);
 	free((char *)save);
+	// (void)ftp_free_null((char *)save);
 	if (error_flag == -1)
-		return (error_flag);
+		return (-1);
 	return ((int)print_len);
 }
 
@@ -47,76 +47,100 @@ int main(void)
 	int		res = 0;
 	int		ft_res = 0;
 
-	// segmentation fault
+	// segmentation fault	 
 	// res = printf(NULL);
 	// ft_res = ft_printf(NULL);
 
+
 	// %c = 0, %s = NULL
-	printf("\n--- [1] printf(\"\");--------\n");
-	printf("   printf() = ["); res = printf(""); printf("]\n");
-	printf("ft_printf() = ["); ft_res = ft_printf(""); printf("]\n");
-	printf("   res = [%d]\nft_res = [%d]\n", res, ft_res);
+	printf("\n--- [01] printf(\"\"); --------\n");
+	printf(" |    res = [%d]\n", printf(""));
+	printf(" | ft_res = [%d]\n", ft_printf(""));
 
-	printf("\n--- [2] %%c, 0--------\n");
-	res = printf("   printf() = [%c]\n", '0');
-	ft_res = ft_printf("ft_printf() = [%c]\n", '0');
-	printf("   res = [%d]\nft_res = [%d]\n", res, ft_res);
+	printf("\n--- [02] %%c = -123 --------\n");
+	printf(" |    res = [%d]\n", printf("   printf() = [%c]", -123));
+	printf(" | ft_res = [%d]\n", ft_printf("ft_printf() = [%c]", -123));
 
-	printf("\n--- [3] %%s, NULL--------\n");
-	res = printf("   printf() = [%s]\n", NULL);
-	ft_res = ft_printf("ft_printf() = [%s]\n", NULL);
-	printf("   res = [%d]\nft_res = [%d]\n", res, ft_res);
+	printf("\n--- [03] %%c = 0 --------\n");
+	printf(" |    res = [%d]\n", printf("   printf() = [%c]", '0'));
+	printf(" | ft_res = [%d]\n", ft_printf("ft_printf() = [%c]", '0'));
 
-	printf("\n--- [4] %%u, -4--------\n");
-	res = printf("   printf() = [%u]\n", -4);
-	ft_res = ft_printf("ft_printf() = [%u]\n", -4);
-	printf("   res = [%d]\nft_res = [%d]\n", res, ft_res);
+	printf("\n--- [04] %%c = 200 --------\n");
+	printf(" |    res = [%d]\n", printf("   printf() = [%c]", -123));
+	printf(" | ft_res = [%d]\n", ft_printf("ft_printf() = [%c]", -123));
+
+	// segmentation fault
+	// printf("\n--- [5] %%s = not value --------\n");
+	// printf(" |    res = [%d]\n", printf("   printf() = [%s]"));
+	// printf(" | ft_res = [%d]\n", ft_printf("ft_printf() = [%s]"));
+
+	printf("\n--- [05] %%s = NULL --------\n");
+	printf(" |    res = [%d]\n", printf("   printf() = [%s]", NULL));
+	printf(" | ft_res = [%d]\n", ft_printf("ft_printf() = [%s]", NULL));
+
+	printf("\n--- [06] %%p = NULL --------\n");
+	printf(" |    res = [%d]\n", printf("   printf() = [%p]", NULL));
+	printf(" | ft_res = [%d]\n", ft_printf("ft_printf() = [%p]", NULL));
+
+	printf("\n--- [07] %%u = -4 --------\n");
+	printf(" |    res = [%d]\n", printf("   printf() = [%u]", -4));
+	printf(" | ft_res = [%d]\n", ft_printf("ft_printf() = [%u]", -4));
+
+	printf("\n--- [08] %%x = NULL --------\n");
+	printf(" |    res = [%d]\n", printf("   printf() = [%x]", NULL));
+	printf(" | ft_res = [%d]\n", ft_printf("ft_printf() = [%x]", NULL));
+
+	printf("\n--- [09] %%x = -1 --------\n");
+	printf(" |    res = [%d]\n", printf("   printf() = [%x]", -1));
+	printf(" | ft_res = [%d]\n", ft_printf("ft_printf() = [%x]", -1));
+
+	printf("\n--- [10] %%x = 0 --------\n");
+	printf(" |    res = [%d]\n", printf("   printf() = [%x]", 0));
+	printf(" | ft_res = [%d]\n", ft_printf("ft_printf() = [%x]", 0));
+
+	printf("\n--- [11] %%%%d = 10 --------\n");
+	printf(" |    res = [%d]\n", printf("   printf() = [%%%d]", 10));
+	printf(" | ft_res = [%d]\n", ft_printf("ft_printf() = [%%%d]", 10));
+
+	printf("\n--- [12] %%d%% = 10 --------\n");
+	printf(" |    res = [%d]\n", printf("   printf() = [%%d%%]"));
+	printf(" | ft_res = [%d]\n", ft_printf("ft_printf() = [%%d%%]"));
 
 	// Output char Over INT_MAX
 	char	*intmax_str;
 	intmax_str = (char *)calloc(INT_MAX - 15, sizeof(char));
 	intmax_str = memset(intmax_str, 'A', INT_MAX - 16);
 
-	printf("\n--- [5] %%s, size = [INTMAX - 16]--------\n");
-	res = printf("\n   printf%s%s]", "() = [", intmax_str);
-	ft_res = ft_printf("\nft_printf%s[%s]", "() = [", intmax_str);
-	printf("\n   res = [%d]\nft_res = [%d]\n", res, ft_res);
-	
-	printf("\n--- [6] %%u, LONG_MAX --------\n");
-	res = printf("   printf(); = [%u]\n", LONG_MAX);
-	ft_res = ft_printf("ft_printf(); = [%u]\n", LONG_MAX);
-	printf("   res = [%d]\nft_res = [%d]\n", res, ft_res);
+	printf("\n--- [13] %%s, str_size = [INT_MAX - 16] --------\n");
+	printf("|    res = [%d]\n", printf("   printf%s%s]", "() = [ ", intmax_str));
+	printf("| ft_res = [%d]\n", ft_printf("ft_printf%s%s]", "() = [ ", intmax_str));
 
-	printf("\n--- [7] %%u, LONG_MIN --------\n");
-	res = printf("   printf(); = [%u]\n", LONG_MIN);
-	ft_res = ft_printf("ft_printf(); = [%u]\n", LONG_MIN);
-	printf("   res = [%d]\nft_res = [%d]\n", res, ft_res);
+	printf("\n--- [14] %%u = LONG_MAX --------\n");
+	printf(" |    res = [%d]\n", printf("   printf[%u]", LONG_MAX));
+	printf(" | ft_res = [%d]\n", ft_printf("ft_printf[%u]", LONG_MAX));
 
-	printf("\n--- [8] %%u, UINT_MAX --------\n");
-	res = printf("   printf(); = [%u]\n", UINT_MAX);
-	ft_res = ft_printf("ft_printf(); = [%u]\n", UINT_MAX);
-	printf("   res = [%d]\nft_res = [%d]\n", res, ft_res);
+	printf("\n--- [15] %%u = LONG_MIN --------\n");
+	printf(" |    res = [%d]\n", printf("   printf[%u]", LONG_MIN));
+	printf(" | ft_res = [%d]\n", ft_printf("ft_printf[%u]", LONG_MIN));
 
-	printf("\n--- [9] %%u, ULONG_MAX --------\n");
-	res = printf("   printf(); = [%u]\n", ULONG_MAX);
-	ft_res = ft_printf("ft_printf(); = [%u]\n", ULONG_MAX);
-	printf("   res = [%d]\nft_res = [%d]\n", res, ft_res);
+	printf("\n--- [16] %%u = UINT_MAX --------\n");
+	printf(" |    res = [%d]\n", printf("   printf[%u]", UINT_MAX));
+	printf(" | ft_res = [%d]\n", ft_printf("ft_printf[%u]", UINT_MAX));
 
-	printf("\n--- [10] %%u, U9223372036854775807LL --------\n");
-	res = printf("   printf(9223372036854775807LL); = [%u]\n",
-		9223372036854775807LL);
-	ft_res = ft_printf("ft_printf(9223372036854775807LL); = [%u]\n",
-		9223372036854775807LL);
-	printf("   res = [%d]\nft_res = [%d]\n", res, ft_res);
+	printf("\n--- [17] %%u = ULONG_MAX --------\n");
+	printf(" |    res = [%d]\n", printf("   printf[%u]", ULONG_MAX));
+	printf(" | ft_res = [%d]\n", ft_printf("ft_printf[%u]", ULONG_MAX));
 
-	printf("\n--- [11] %%u, all test --------\n");
-	printf(" %u %u %u %u %u %u %u \n",
-			INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42);
-	ft_printf(" %u %u %u %u %u %u %u \n",
-			INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42);
+	printf("\n--- [18] %%u = U9223372036854775807LL --------\n");
+	printf(" |    res = [%d]\n", printf("   printf[%u]", 9223372036854775807LL));
+	printf(" | ft_res = [%d]\n", ft_printf("ft_printf[%u]", 9223372036854775807LL));
+
+	printf("\n--- [19] %%u, all test --------\n");
+	printf(" %u %u %u %u %u %u %u \n", INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42);
+	ft_printf(" %u %u %u %u %u %u %u \n", INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42);
 
 	free(intmax_str);
-	system("leaks a.out");
+	system("leaks -q a.out");
     return (0);
 }
 */
