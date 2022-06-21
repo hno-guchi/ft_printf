@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_check_convs.c                                  :+:      :+:    :+:   */
+/*   ftp_convert_format_str.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:26:31 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/16 18:50:04 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:51:11 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*ftp_check_convs(char *buf, size_t *b_len, int c, va_list args)
+char	*ftp_convert_format_str(char *buf, size_t *b_len, int c, va_list args)
 {
 	char	*dst;
 

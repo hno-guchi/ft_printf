@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_free_null.c                                    :+:      :+:    :+:   */
+/*   ftp_not_conversions.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/15 11:43:52 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/21 17:56:48 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/06/21 18:05:37 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/06/21 18:06:02 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "libft.h"
 
-// char	*ftp_free_null(char **s)
-ssize_t	ftp_free_null(char **s)
+ssize_t	ftp_not_conversions(char *buf, size_t *p_len)
 {
-	if (s[0] != NULL)
+	size_t	buf_len;
+
+	buf_len = ft_strlen(buf);
+	if ((*p_len + buf_len) < INT_MAX)
 	{
-		free(s[0]);
-		s[0] = NULL;
+		if (write(1, buf, buf_len) == -1)
+			return (-1);
+		*p_len += buf_len;
+		return (1);
 	}
 	return (-1);
-	// return (NULL);
 }

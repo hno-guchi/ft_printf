@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_free_null.c                                    :+:      :+:    :+:   */
+/*   ftp_strndup.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/15 11:43:52 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/21 17:56:48 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/06/15 17:35:40 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/06/17 17:24:40 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "libft.h"
 
-// char	*ftp_free_null(char **s)
-ssize_t	ftp_free_null(char **s)
+char	*ftp_strndup(const char *s1, size_t len)
 {
-	if (s[0] != NULL)
-	{
-		free(s[0]);
-		s[0] = NULL;
-	}
-	return (-1);
-	// return (NULL);
+	char	*duplicate;
+
+	duplicate = (char *)ft_calloc(len + 1, sizeof(char));
+	if (duplicate == NULL)
+		return (NULL);
+	(void)ft_strlcpy(duplicate, s1, len + 1);
+	return (duplicate);
 }

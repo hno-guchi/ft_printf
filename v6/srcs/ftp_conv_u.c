@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:57:13 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/21 18:01:47 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/06/16 15:22:34 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,34 +40,18 @@ static char	*unsigned_itoa_count(unsigned int n, size_t *cnt)
 	return (str);
 }
 
-/*
-static ssize_t	free_null_wrapper(char *str)
+char	*ftp_conv_u(unsigned long long uint, char *buf, size_t *b_len)
 {
-	(void)ftp_free_null(&str);
-	return (-1);
-}
-*/
+	char	*dst;
+	char	*u_nbr;
+	size_t	u_len;
 
-ssize_t	ftp_conv_u(unsigned long long uint, char *buf, size_t *p_len)
-{
-	size_t	buf_len;
-	size_t	uint_len;
-	char	*uint_str;
-
-	buf_len = ft_strlen(buf);
-	uint_len = 0;
-	uint_str = unsigned_itoa_count((unsigned int)uint, &uint_len);
-	if (uint_str == NULL)
-		return (-1);
-	if ((*p_len + uint_len) < INT_MAX)
-	{
-		if (write(1, buf, buf_len) == -1)
-			return (ftp_free_null(&uint_str));
-		if (write(1, uint_str, uint_len) == -1)
-			return (ftp_free_null(&uint_str));
-		*p_len += (buf_len + uint_len);
-		(void)ftp_free_null(&uint_str);
-		return (2);
-	}
-	return (ftp_free_null(&uint_str));
+	u_len = 0;
+	u_nbr = unsigned_itoa_count((unsigned int)uint, &u_len);
+	if (u_nbr == NULL)
+		return (ftp_free_null(&buf));
+	dst = ftp_strnjoin(buf, u_nbr, *b_len, u_len);
+	(void)ftp_free_null(&u_nbr);
+	*b_len += u_len;
+	return (dst);
 }

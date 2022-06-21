@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_free_null.c                                    :+:      :+:    :+:   */
+/*   ftp_str_tolower.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/15 11:43:52 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/21 17:56:48 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/06/08 11:14:44 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/06/15 21:48:48 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "libft.h"
 
-// char	*ftp_free_null(char **s)
-ssize_t	ftp_free_null(char **s)
+char	*ftp_str_tolower(char *s)
 {
-	if (s[0] != NULL)
+	int	i;
+
+	i = 0;
+	while (s[i] != '\0')
 	{
-		free(s[0]);
-		s[0] = NULL;
+		s[i] = ft_tolower(s[i]);
+		i += 1;
 	}
-	return (-1);
-	// return (NULL);
+	return (s);
 }

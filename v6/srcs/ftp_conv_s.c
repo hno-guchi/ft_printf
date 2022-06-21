@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_free_null.c                                    :+:      :+:    :+:   */
+/*   ftp_conv_s.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/15 11:43:52 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/21 17:56:48 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/06/08 12:24:56 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/06/16 15:16:20 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "libft.h"
 
-// char	*ftp_free_null(char **s)
-ssize_t	ftp_free_null(char **s)
+char	*ftp_conv_s(char *va_s, char *buf, size_t *b_len)
 {
-	if (s[0] != NULL)
-	{
-		free(s[0]);
-		s[0] = NULL;
-	}
-	return (-1);
-	// return (NULL);
+	size_t	v_len;
+	char	*dst;
+
+	v_len = 0;
+	if (va_s == NULL)
+		va_s = "(null)";
+	v_len = ft_strlen(va_s);
+	dst = ftp_strnjoin(buf, va_s, *b_len, v_len);
+	*b_len += v_len;
+	return (dst);
 }

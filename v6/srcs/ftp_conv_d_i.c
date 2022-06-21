@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_free_null.c                                    :+:      :+:    :+:   */
+/*   ftp_conv_d_i.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/15 11:43:52 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/21 17:56:48 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/06/08 16:53:38 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/06/16 15:15:55 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "libft.h"
 
-// char	*ftp_free_null(char **s)
-ssize_t	ftp_free_null(char **s)
+char	*ftp_conv_d_i(int i, char *buf, size_t *b_len)
 {
-	if (s[0] != NULL)
-	{
-		free(s[0]);
-		s[0] = NULL;
-	}
-	return (-1);
-	// return (NULL);
+	char	*dst;
+	char	*nbr;
+	size_t	n_len;
+
+	n_len = 0;
+	nbr = ftp_itoa_count(i, &n_len);
+	if (nbr == NULL)
+		return (ftp_free_null(&buf));
+	dst = ftp_strnjoin(buf, nbr, *b_len, n_len);
+	(void)ftp_free_null(&nbr);
+	*b_len += n_len;
+	return (dst);
 }
