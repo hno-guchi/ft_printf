@@ -6,60 +6,37 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:26:31 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/21 19:30:10 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/06/22 12:18:40 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-int		is_flags(const char c)
-{
-	int		bit_flag;
-	int		i;
-	char	*flag_set;
-
-	bit_flag = 0;
-	i = 0;
-	flag_set = ft_strdup("#-+ 0");
-}
-
-ssize_t	ftp_parse(const char *save, int *flag, char *c)
-{
-	ssize_t	i;
-
-	i = 0;
-	while (save[i] != '\0')
-	{
-		*flag |= is_flag(str[i]);
-		i += 1;
-	}
-	if (*flag & (1 << 1))
-		*flag &= ~(1 << 3);
-	return (i);
-}
-
 ssize_t	ftp_fprintf(const char *save, va_list args, char *buf, size_t *p_len)
 {
 	ssize_t	move_i;
 	int		bit_flag;
-	char	conv;
+	size_t	width_pre_digit[2];
 	char	*fmt_str;
 
+	(void)args;
 	move_i = 0;
 	bit_flag = 0;
-	conv = 0;
+	width_pre_digit[0] = 0;
+	width_pre_digit[1] = 0;
 	fmt_str = NULL;
 	if (save[0] != '%')
 		move_i = ftp_not_conversions(buf, p_len);
 	else
 	{
-		move_i = ftp_parse(save, &bit_flag, &conv);
-		fmt_str = ftp_create_format_string(args, bit_flag, conv);
+		move_i = ftp_parse_flags(save, &bit_flag);
+		move_i += ftp_parse_width_precision(&save[move_i], width_pre_digit);
+		// fmt_str = ftp_create_format_string(args, bit_flag, w_d_digit);
 		if (fmt_str == NULL)
 			return (-1);
-		if (!write_smaller_intmax(buf, fmt_str, p_len))
-			return (ftp_free_null(fmt_str));
+		// if (!write_smaller_intmax(buf, fmt_str, p_len))
+		// 	return (ftp_free_null(fmt_str));
 	}
 	return (move_i);
 }

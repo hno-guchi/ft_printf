@@ -3,6 +3,7 @@ NAME = libftprintf.a
 SRCS = ft_printf.c \
 	ftp_outputstr_count.c ftp_fprintf.c ftp_not_conversions.c \
 	ftp_conv_c.c ftp_conv_s.c ftp_conv_p.c ftp_conv_d_i.c ftp_conv_u.c ftp_conv_x.c \
+	ftp_parse_flags.c \
 	ftp_itoa_count.c ftp_ull_itoa_base.c \
 	ftp_str_tolower.c ftp_free_null.c
 	# ftp_strndup.c ftp_strnjoin.c \
