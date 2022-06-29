@@ -1,17 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_parse_width_precision.c                        :+:      :+:    :+:   */
+/*   ftp_puts_has_width_only.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/22 20:46:10 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/22 20:47:14 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/06/29 17:51:16 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/06/29 17:52:00 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
+int	ftp_puts_has_width_only(char *str, t_fmt_info *info, int len)
+{
+	int	i;
 
-ftp_parse_width_precision(&save[move_i], width_pre_digit);
+	i = 0;
+	while (i < (info->width - len))
+	{
+		if (write(1, " ", 1) == -1)
+			return (-1);
+		i += 1;
+	}
+	if (write(1, str, len) == -1)
+		return (-1);
+	return (1);
+}

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_outputstr_count.c                              :+:      :+:    :+:   */
+/*   ftp_print_count.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:18:52 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/21 17:55:36 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/06/29 18:01:10 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*substr_count(const char *str, size_t *s_len)
 	return (cut_str);
 }
 
-int	ftp_outputstr_count(const char *save, va_list args, size_t *print_len)
+int	ftp_print_count(const char *save, va_list args, size_t *print_len)
 {
 	size_t	i;
 	size_t	buf_len;
@@ -56,7 +56,7 @@ int	ftp_outputstr_count(const char *save, va_list args, size_t *print_len)
 		if (buf == NULL)
 			return (-1);
 		i += buf_len;
-		move_i = ftp_fprintf(&save[i], args, buf, print_len);
+		move_i = ftp_puts_cnt(&save[i], args, buf, print_len);
 		(void)ftp_free_null(&buf);
 		if (move_i == -1)
 			return (-1);

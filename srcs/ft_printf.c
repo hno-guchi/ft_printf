@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 19:34:31 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/21 18:09:12 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/06/29 18:47:31 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,9 @@ int	ft_printf(const char *input, ...)
 	if (save == NULL)
 		return (-1);
 	va_start(args, input);
-	error_flag = ftp_outputstr_count(save, args, &print_len);
+	error_flag = ftp_print_count(save, args, &print_len);
 	va_end(args);
 	free((char *)save);
-	// (void)ftp_free_null((char *)save);
 	if (error_flag == -1)
 		return (-1);
 	return ((int)print_len);
@@ -112,8 +111,10 @@ int main(void)
 	intmax_str = memset(intmax_str, 'A', INT_MAX - 16);
 
 	printf("\n--- [13] %%s, str_size = [INT_MAX - 16] --------\n");
-	printf("|    res = [%d]\n", printf("   printf%s%s]", "() = [ ", intmax_str));
-	printf("| ft_res = [%d]\n", ft_printf("ft_printf%s%s]", "() = [ ", intmax_str));
+	printf("|    res = [%d]\n",
+			printf("   printf%s%s]", "() = [ ", intmax_str));
+	printf("| ft_res = [%d]\n",
+			ft_printf("ft_printf%s%s]", "() = [ ", intmax_str));
 
 	printf("\n--- [14] %%u = LONG_MAX --------\n");
 	printf(" |    res = [%d]\n", printf("   printf[%u]", LONG_MAX));
@@ -132,12 +133,16 @@ int main(void)
 	printf(" | ft_res = [%d]\n", ft_printf("ft_printf[%u]", ULONG_MAX));
 
 	printf("\n--- [18] %%u = U9223372036854775807LL --------\n");
-	printf(" |    res = [%d]\n", printf("   printf[%u]", 9223372036854775807LL));
-	printf(" | ft_res = [%d]\n", ft_printf("ft_printf[%u]", 9223372036854775807LL));
+	printf(" |    res = [%d]\n",
+			printf("   printf[%u]", 9223372036854775807LL));
+	printf(" | ft_res = [%d]\n",
+			ft_printf("ft_printf[%u]", 9223372036854775807LL));
 
 	printf("\n--- [19] %%u, all test --------\n");
-	printf(" %u %u %u %u %u %u %u \n", INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42);
-	ft_printf(" %u %u %u %u %u %u %u \n", INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42);
+	printf(" %u %u %u %u %u %u %u \n",
+			INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42);
+	ft_printf(" %u %u %u %u %u %u %u \n",
+			INT_MAX, INT_MIN, LONG_MAX, LONG_MIN, ULONG_MAX, 0, -42);
 
 	free(intmax_str);
 	system("leaks -q a.out");
