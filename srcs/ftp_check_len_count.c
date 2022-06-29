@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_conv_c.c                                       :+:      :+:    :+:   */
+/*   ftp_check_len_count.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/08 11:19:59 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/29 18:46:24 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/06/29 18:36:45 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/06/29 18:47:55 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-int	ftp_conv_c(char c, t_fmt_info *info, char *buf, size_t *p_len)
+int	ftp_check_len_count(size_t *p, size_t buf, size_t va, size_t w)
 {
-	size_t	buf_len;
-
-	buf_len = ft_strlen(buf);
-	if (ftp_check_len_count(p_len, buf_len, 1, (size_t)info->width) == -1)
-		return (-1);
-	if (1 < info->width)
+	if (va < w)
 	{
-		if (write(1, buf, buf_len) == -1)
+		if ((INT_MAX - 1) <= (*p + buf + w))
 			return (-1);
-		if (ftp_puts_format_c_s(&c, info, 1) == -1)
-			return (-1);
+		*p += buf + w;
 	}
 	else
-		if (ftp_puts_conv_only(buf, &c, buf_len, 1) == -1)
+	{
+		if ((INT_MAX - 1) <= (*p + buf + va))
 			return (-1);
+		*p += buf + va;
+	}
 	return (1);
 }
