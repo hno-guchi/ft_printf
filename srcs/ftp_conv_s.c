@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:24:56 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/29 18:46:47 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/07/01 21:44:43 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,18 @@ int	ftp_conv_s(char *va_s, t_fmt_info *info, char *buf, size_t *p_len)
 	va_len = ft_strlen(va_s);
 	if (info->precision != -1 && (size_t)info->precision < va_len)
 			va_len = (size_t)info->precision;
-	if (ftp_check_len_count(p_len, buf_len, va_len, (size_t)info->width) == -1)
+	ftp_adjustment_info_bit_flag(info);
+	if (ftp_check_len_cnt(p_len, buf_len, va_len, info) == -1)
+		return (-1);
+	if (write(1, buf, buf_len) == -1)
 		return (-1);
 	if (va_len < (size_t)info->width)
 	{
-		if (write(1, buf, buf_len) == -1)
-			return (-1);
-		if (ftp_puts_format_c_s(va_s, info, (int)va_len) == -1)
+		if (ftp_puts_c_s(va_s, info, va_len) == -1)
 			return (-1);
 	}
 	else
-		if (ftp_puts_conv_only(buf, va_s, buf_len, va_len) == -1)
+		if (write(1, va_s, va_len) == -1)
 			return (-1);
 	return (1);
 }

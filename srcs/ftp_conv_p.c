@@ -6,27 +6,70 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:27:30 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/29 21:20:06 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/07/01 22:13:32 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-static char	*join_header_str(char *head, char *str, size_t h_len, size_t s_len)
+static int	puts_not_width(char *str, size_t s_len)
 {
-	char	*dst;
+	if (write(1, "0x", 2) == -1)
+		return (-1);
+	if (write(1, str, s_len) == -1)
+		return (-1);
+	return (1);
+}
 
-	dst = (char *)malloc((h_len + s_len + 1) * sizeof(char));
-	if (dst == NULL)
+static int	puts_has_not_flag(char *str, t_fmt_info *info, size_t len)
+{
+	if (ftp_puts_character(' ', (size_t)info->width - len - 2) == -1)
+		return (-1);
+	if (write(1, "0x", 2) == -1)
+		return (-1);
+	if (write(1, str, len) == -1)
+		return (-1);
+	return (1);
+}
+
+static int	puts_has_flags_minus_zero(char *str, t_fmt_info *info, size_t len)
+{
+	int	puts_width_len;
+
+	puts_width_len = info->width - len - 2;
+	if (info->bit_flag & (1 << 1))
 	{
-		(void)ftp_free_null(&str);
-		return (NULL);
+		if (write(1, "0x", 2) == -1)
+			return (-1);
+		if (write(1, str, len) == -1)
+			return (-1);
+		if (ftp_puts_character(' ', puts_width_len) == -1)
+			return (-1);
 	}
-	(void)ft_memmove(dst, head, h_len);
-	(void)ft_memmove(&dst[h_len], str, s_len + 1);
-	(void)ftp_free_null(&str);
-	return (dst);
+	else if (info->bit_flag & (1 << 4))
+	{
+		if (write(1, "0x", 2) == -1)
+			return (-1);
+		if (ftp_puts_character('0', puts_width_len) == -1)
+			return (-1);
+		if (write(1, str, len) == -1)
+			return (-1);
+	}
+	return (1);
+}
+
+static int	ftp_puts_c_s_p(char *str, t_fmt_info *info, size_t len)
+{
+	if ((info->bit_flag & (1 << 1)) || (info->bit_flag & (1 << 4)))
+	{
+		if (puts_has_flags_minus_zero(str, info, len) == -1)
+			return (-1);
+	}
+	else
+		if (puts_has_not_flag(str, info, len) == -1)
+			return (-1);
+	return (1);
 }
 
 static char	*create_ull_p_str(unsigned long long ull_p, size_t *len)
@@ -36,11 +79,7 @@ static char	*create_ull_p_str(unsigned long long ull_p, size_t *len)
 	ull_p_str = ftp_ull_itoa_base(ull_p, 16, len);
 	if (ull_p_str == NULL)
 		return (NULL);
-	ull_p_str = join_header_str("0x", ull_p_str, 2, *len);
-	if (ull_p_str == NULL)
-		return (NULL);
 	ull_p_str = ftp_str_tolower(ull_p_str);
-	*len += 2;
 	return (ull_p_str);
 }
 
@@ -57,17 +96,18 @@ int	ftp_conv_p(void *point, t_fmt_info *info, char *buf, size_t *p_len)
 		return (-1);
 	if (info->precision != -1 && (size_t)info->precision < ullp_len)
 			ullp_len = (size_t)info->precision;
-	if (ftp_check_len_count(p_len, b_len, ullp_len, (size_t)info->width) == -1)
+	ftp_adjustment_info_bit_flag(info);
+	if (ftp_check_len_cnt(p_len, b_len, ullp_len, info) == -1)
 		return (ftp_free_null(&ullp_str));
-	if (ullp_len < (size_t)info->width)
+	if (write(1, buf, b_len) == -1)
+		return (ftp_free_null(&ullp_str));
+	if ((ullp_len + 2) < (size_t)info->width)
 	{
-		if (write(1, buf, b_len) == -1)
-			return (ftp_free_null(&ullp_str));
-		if (ftp_puts_format_c_s(ullp_str, info, (int)ullp_len) == -1)
+		if (ftp_puts_c_s_p(ullp_str, info, ullp_len) == -1)
 			return (ftp_free_null(&ullp_str));
 	}
 	else
-		if (ftp_puts_conv_only(buf, ullp_str, b_len, ullp_len) == -1)
+		if (puts_not_width(ullp_str, ullp_len) == -1)
 			return (ftp_free_null(&ullp_str));
 	(void)ftp_free_null(&ullp_str);
 	return (1);
