@@ -1,35 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_conv_c.c                                       :+:      :+:    :+:   */
+/*   ftp_puts_character.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/08 11:19:59 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/01 21:40:24 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/07/01 20:32:35 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/07/01 20:32:59 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-int	ftp_conv_c(char c, t_fmt_info *info, char *buf, size_t *p_len)
+ssize_t	ftp_puts_character(char c, size_t len)
 {
-	size_t	buf_len;
+	size_t	i;
+	char	*zero_str;
 
-	buf_len = ft_strlen(buf);
-	ftp_adjustment_info_bit_flag(info);
-	if (ftp_check_len_cnt(p_len, buf_len, 1, info) == -1)
-		return (-1);
-	if (write(1, buf, buf_len) == -1)
-		return (-1);
-	if (1 < info->width)
+	i = 0;
+	if (len < 100)
 	{
-		if (ftp_puts_c_s(&c, info, 1) == -1)
+		zero_str = (char *)ft_calloc(len + 1, sizeof(char));
+		if (zero_str == NULL)
 			return (-1);
+		(void)ft_memset(zero_str, c, len);
+		if (write(1, zero_str, len) == -1)
+			return (ftp_free_null(&zero_str));
+		i = len;
+		(void)ftp_free_null(&zero_str);
 	}
 	else
-		if (write(1, &c, 1) == -1)
-			return (-1);
-	return (1);
+	{
+		while (i < len)
+		{
+			if (write(1, &c, 1) == -1)
+				return (-1);
+			i += 1;
+		}
+	}
+	return (i);
 }

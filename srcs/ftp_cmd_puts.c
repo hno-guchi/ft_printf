@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 15:51:51 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/29 21:19:16 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/07/01 20:55:51 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,17 @@ int	ftp_cmd_puts(va_list args, t_fmt_info *info, char *buf, size_t *p_len)
 	if (info->conversion == 'c')
 		error_flag = ftp_conv_c(va_arg(args, int), info, buf, p_len);
 	else if (info->conversion == '%')
-		error_flag = ftp_conv_c('%', info, buf, p_len);
+		error_flag = ftp_conv_percent('%', info, buf, p_len);
 	else if (info->conversion == 's')
 		error_flag = ftp_conv_s(va_arg(args, char *), info, buf, p_len);
 	else if (info->conversion == 'p')
 		error_flag = ftp_conv_p(va_arg(args, void *), info, buf, p_len);
-/*
 	else if (info->conversion == 'd' || info->conversion == 'i')
-		error_flag = ftp_conv_d_i(va_arg(args, int), info, fmt_len);
+		error_flag = ftp_conv_d_i(va_arg(args, int), info, buf, p_len);
+/*
 	else if (info->conversion == 'u')
-		error_flag = ftp_conv_u(va_arg(args, unsigned long long), info, fmt_len);
+		error_flag = ftp_conv_u(
+				va_arg(args, unsigned long long), info, buf, p_len);
 	else if (info->conversion == 'x')
 		error_flag = ftp_conv_x(va_arg(args, unsigned int), 'x', info, fmt_len);
 	else if (info->conversion == 'X')

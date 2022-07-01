@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:37:08 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/29 18:49:40 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/07/01 14:18:10 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static void	check_parsed_format_info(t_fmt_info *info)
 		info->bit_flag &= ~(1 << 3);
 	if (info->width & (1 << 31))
 		info->width &= ~(1 << 31);
+	if (info->precision & (1 << 31))
+		info->precision = -1;
 	return ;
 }
 
