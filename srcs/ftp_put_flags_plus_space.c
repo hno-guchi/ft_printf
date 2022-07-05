@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 20:30:08 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/01 20:30:33 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/07/05 15:42:40 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ int	ftp_put_flags_plus_space(t_fmt_info *info)
 			return (-1);
 	}
 	else if (info->bit_flag & (1 << 3))
-	{
 		if (write(1, " ", 1) == -1)
 			return (-1);
-	}
 	return (1);
 }
