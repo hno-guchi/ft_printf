@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:53:38 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/01 20:36:00 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/07/05 21:07:24 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,9 @@ static size_t	adjust_info_puts_len(t_fmt_info *info, int i, size_t *i_len)
 	size_t	puts_len;
 
 	puts_len = 0;
+	sign_flag = 0;
 	if (i < 0)
 		sign_flag = 1;
-	else
-		sign_flag = 0;
 	if ((info->precision != -1)
 		&& (*i_len - sign_flag) < (size_t)info->precision)
 		puts_len = (size_t)info->precision + sign_flag;
@@ -62,11 +61,9 @@ static size_t	adjust_info_puts_len(t_fmt_info *info, int i, size_t *i_len)
 	}
 	else
 		puts_len = *i_len;
-	if (info->precision != -1 && (info->bit_flag & (1 << 4)))
-		info->bit_flag &= ~(1 << 4);
-	if (sign_flag == 1 && (info->bit_flag & (1 << 2)))
+	if (sign_flag == 1)
 		info->bit_flag &= ~(1 << 2);
-	if (sign_flag == 1 && (info->bit_flag & (1 << 3)))
+	if (puts_len < (size_t)info->width || sign_flag == 1)
 		info->bit_flag &= ~(1 << 3);
 	return (puts_len);
 }

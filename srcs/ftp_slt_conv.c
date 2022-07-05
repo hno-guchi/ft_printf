@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_cmd_puts.c                                     :+:      :+:    :+:   */
+/*   ftp_slt_conv.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 15:51:51 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/01 20:55:51 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/07/05 21:11:43 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-int	ftp_cmd_puts(va_list args, t_fmt_info *info, char *buf, size_t *p_len)
+int	ftp_slt_conv(va_list args, t_fmt_info *info, char *buf, size_t *p_len)
 {
 	int	error_flag;
 
@@ -28,10 +28,10 @@ int	ftp_cmd_puts(va_list args, t_fmt_info *info, char *buf, size_t *p_len)
 		error_flag = ftp_conv_p(va_arg(args, void *), info, buf, p_len);
 	else if (info->conversion == 'd' || info->conversion == 'i')
 		error_flag = ftp_conv_d_i(va_arg(args, int), info, buf, p_len);
-/*
 	else if (info->conversion == 'u')
 		error_flag = ftp_conv_u(
 				va_arg(args, unsigned long long), info, buf, p_len);
+/*
 	else if (info->conversion == 'x')
 		error_flag = ftp_conv_x(va_arg(args, unsigned int), 'x', info, fmt_len);
 	else if (info->conversion == 'X')
@@ -61,4 +61,3 @@ int	ftp_cmd_puts(va_list args, t_fmt_info *info, char *buf, size_t *p_len)
 		move_i += ftp_conv_x(va_arg(args, unsigned int), 'X', buf, p_len);
 	return (move_i);
 */
-

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_puts_d_i.c                                     :+:      :+:    :+:   */
+/*   ftp_puts_p.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/01 20:34:35 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/05 19:19:50 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/07/02 12:16:22 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/07/05 19:28:26 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,41 +27,14 @@ static int	puts_precision_str(char *str, size_t in, ssize_t sgn, size_t ptn)
 
 static int	puts_nflag_minus(char *str, t_fmt_info *ifo, size_t in, size_t ptn)
 {
-	size_t	sign;
-
-	sign = 0;
-	if (ftp_put_flags_plus_space(ifo) == -1)
+	if (write(1, "0x", 2) == -1)
 		return (-1);
-	else if (str[0] == '-')
-		if (write(1, &str[sign++], 1) == -1)
-			return (-1);
 	if ((0 < ifo->width) && (ifo->bit_flag & (1 << 4)))
-		if (ftp_puts_character('0', (size_t)ifo->width - in) == -1)
+		if (ftp_puts_character('0', (size_t)ifo->width - 2 - in) == -1)
 			return (-1);
 	if (in < ptn)
 	{
-		if (puts_precision_str(&str[sign], in, sign, ptn) == -1)
-			return (-1);
-	}
-	else
-		if (write(1, &str[sign], (in - sign)) == -1)
-			return (-1);
-	return (1);
-}
-
-static int	puts_flag_minus(char *str, t_fmt_info *ifo, size_t in, size_t ptn)
-{
-	size_t	sign;
-
-	sign = 0;
-	if (ftp_put_flags_plus_space(ifo) == -1)
-		return (-1);
-	if (in < ptn)
-	{
-		if (str[0] == '-')
-			if (write(1, &str[sign++], 1) == -1)
-				return (-1);
-		if (puts_precision_str(&str[sign], in, sign, ptn) == -1)
+		if (puts_precision_str(str, in, 0, ptn) == -1)
 			return (-1);
 	}
 	else
@@ -70,29 +43,39 @@ static int	puts_flag_minus(char *str, t_fmt_info *ifo, size_t in, size_t ptn)
 	return (1);
 }
 
-int	ftp_puts_d_i(char *str, t_fmt_info *ifo, size_t in, size_t ptn)
+static int	puts_flag_minus(char *str, size_t in, size_t ptn)
 {
-	size_t	flag_len;
+	if (write(1, "0x", 2) == -1)
+		return (-1);
+	if (in < ptn)
+	{
+		if (puts_precision_str(str, in, 0, ptn) == -1)
+			return (-1);
+	}
+	else
+		if (write(1, str, in) == -1)
+			return (-1);
+	return (1);
+}
 
-	flag_len = 0;
-	if ((ifo->bit_flag & (1 << 2)) || (ifo->bit_flag & (1 << 3)))
-		flag_len = 1;
+int	ftp_puts_p(char *str, t_fmt_info *ifo, size_t un, size_t ptn)
+{
 	if (ifo->bit_flag & (1 << 1))
 	{
-		if (puts_flag_minus(str, ifo, in, ptn) == -1)
+		if (puts_flag_minus(str, un, ptn) == -1)
 			return (-1);
 		if ((0 < ifo->width) && !(ifo->bit_flag & (1 << 4)))
 			if (ftp_puts_character(' ',
-					(size_t)ifo->width - flag_len - ptn) == -1)
+					(size_t)ifo->width - 2 - ptn) == -1)
 				return (-1);
 	}
 	else
 	{
 		if ((0 < ifo->width) && !(ifo->bit_flag & (1 << 4)))
 			if (ftp_puts_character(' ',
-					(size_t)ifo->width - flag_len - ptn) == -1)
+					(size_t)ifo->width - 2 - ptn) == -1)
 				return (-1);
-		if (puts_nflag_minus(str, ifo, in, ptn) == -1)
+		if (puts_nflag_minus(str, ifo, un, ptn) == -1)
 			return (-1);
 	}
 	return (1);

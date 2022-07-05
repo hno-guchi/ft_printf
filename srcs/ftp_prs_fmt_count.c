@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:37:08 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/01 14:18:10 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/07/05 20:50:58 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,30 @@
 
 static void	check_parsed_format_info(t_fmt_info *info)
 {
-	if (((info->bit_flag & (1 << 1)) || -1 < info->precision)
+	char	conversion;
+
+	conversion = (char)info->conversion;
+	if (ft_strchr("csp", conversion) != NULL)
+	{
+		info->bit_flag &= ~(1 << 0);
+		info->bit_flag &= ~(1 << 2);
+		info->bit_flag &= ~(1 << 3);
+		if (info->conversion == 'p')
+			info->bit_flag |= (1 << 0);
+	}
+	if (ft_strchr("diu", conversion) != NULL)
+		info->bit_flag &= ~(1 << 0);
+	if (((info->bit_flag & (1 << 1)) || info->precision != -1)
 		&& info->conversion != '%')
 		info->bit_flag &= ~(1 << 4);
 	if (info->bit_flag & (1 << 2))
 		info->bit_flag &= ~(1 << 3);
+	if (info->precision != -1)
+		info->bit_flag &= ~(1 << 4);
 	if (info->width & (1 << 31))
 		info->width &= ~(1 << 31);
 	if (info->precision & (1 << 31))
 		info->precision = -1;
-	return ;
 }
 
 static size_t	prs_fmt_count(const char *save, va_list args, t_fmt_info *info)

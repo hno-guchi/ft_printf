@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 19:34:31 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/29 18:47:31 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/07/02 12:39:01 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_printf(const char *input, ...)
 	if (save == NULL)
 		return (-1);
 	va_start(args, input);
-	error_flag = ftp_print_count(save, args, &print_len);
+	error_flag = ftp_scanning_count(save, args, &print_len);
 	va_end(args);
 	free((char *)save);
 	if (error_flag == -1)

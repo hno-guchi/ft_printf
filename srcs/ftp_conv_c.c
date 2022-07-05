@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 11:19:59 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/01 21:40:24 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/07/05 21:06:50 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	ftp_conv_c(char c, t_fmt_info *info, char *buf, size_t *p_len)
 	size_t	buf_len;
 
 	buf_len = ft_strlen(buf);
-	ftp_adjustment_info_bit_flag(info);
 	if (ftp_check_len_cnt(p_len, buf_len, 1, info) == -1)
 		return (-1);
 	if (write(1, buf, buf_len) == -1)

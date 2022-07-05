@@ -6,14 +6,14 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:26:31 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/06/29 18:05:57 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/07/02 12:43:32 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-ssize_t	ftp_puts_cnt(const char *save, va_list args, char *buf, size_t *p_len)
+ssize_t	ftp_chk_has(const char *save, va_list args, char *buf, size_t *p_len)
 {
 	ssize_t		move_i;
 	t_fmt_info	*format_info;
@@ -27,7 +27,7 @@ ssize_t	ftp_puts_cnt(const char *save, va_list args, char *buf, size_t *p_len)
 	else
 	{
 		move_i = ftp_prs_fmt_count(save, args, format_info);
-		if (ftp_cmd_puts(args, format_info, buf, p_len) == -1)
+		if (ftp_slt_conv(args, format_info, buf, p_len) == -1)
 		{
 			free(format_info);
 			return (-1);

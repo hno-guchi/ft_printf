@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_adjustment_info_bit_flag.c                     :+:      :+:    :+:   */
+/*   ftp_adjust_info_bit_flag_c_s_p.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 10:07:49 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/01 10:52:14 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/07/05 14:36:13 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-void	ftp_adjustment_info_bit_flag(t_fmt_info *info)
+void	ftp_adjust_info_bit_flag_c_s_p(t_fmt_info *info)
 {
 	char	conversion;
-	
+
 	conversion = info->conversion;
 	if (ft_strchr("csp", conversion) != NULL)
 	{
