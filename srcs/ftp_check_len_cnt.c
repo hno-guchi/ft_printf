@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_check_len_count.c                              :+:      :+:    :+:   */
+/*   ftp_check_len_cnt.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:36:45 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/05 14:38:03 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/07/06 21:26:09 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ static size_t	sum_len_bit_flag(t_fmt_info *info)
 	flag_sharp = 0;
 	flag_plus = 0;
 	flag_space = 0;
-	if ((info->bit_flag & (1 << 0)) && info->conversion == 'o')
-		flag_sharp = 1;
-	else if ((info->bit_flag & (1 << 0))
+	if ((info->bit_flag & (1 << 0))
 		&& ft_strchr("pxX", info->conversion) != NULL)
 		flag_sharp = 2;
 	if (info->bit_flag & (1 << 2))

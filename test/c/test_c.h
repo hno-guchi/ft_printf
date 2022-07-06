@@ -1,9 +1,6 @@
-#ifndef TEST_P_H
-# define TEST_P_H
+#ifndef TEST_C_H
+# define TEST_C_H
 
-<<<<<<< HEAD
-const char	*point = "abcde";
-=======
 #include "ft_printf.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,6 +9,5 @@ const char	*point = "abcde";
 
 void	official_printf(void *point);
 void	my_printf(void *point);
->>>>>>> develop
 
 #endif

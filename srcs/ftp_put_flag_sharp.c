@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_conv_c.c                                       :+:      :+:    :+:   */
+/*   ftp_put_flag_sharp.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/08 11:19:59 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/06 21:21:53 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/07/06 12:00:36 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/07/06 13:54:32 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "libft.h"
 
-int	ftp_conv_c(char c, t_fmt_info *info, char *buf, size_t *p_len)
+int	ftp_put_flag_sharp(t_fmt_info *info)
 {
-	size_t	buf_len;
-
-	buf_len = ft_strlen(buf);
-	if (ftp_check_len_cnt(p_len, buf_len, 1, info) == -1)
-		return (-1);
-	if (write(1, buf, buf_len) == -1)
-		return (-1);
-	if (1 < (size_t)info->width)
+	if (info->bit_flag & (1 << 0))
 	{
-		if (ftp_puts_c_s(&c, info, 1) == -1)
-			return (-1);
+		if (info->conversion == 'X')
+		{
+			if (write(1, "0X", 2) == -1)
+				return (-1);
+		}
+		else
+			if (write(1, "0x", 2) == -1)
+				return (-1);
+		return (2);
 	}
-	else
-		if (write(1, &c, 1) == -1)
-			return (-1);
-	return (1);
+	return (0);
 }

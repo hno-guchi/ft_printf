@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 21:45:56 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/05 21:48:57 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/07/06 21:27:41 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,16 @@ int		ftp_conv_p(void *point, t_fmt_info *info, char *buf, size_t *p_len);
 int		ftp_conv_d_i(int i, t_fmt_info *info, char *buf, size_t *p_len);
 int		ftp_conv_u(unsigned long long uint,
 			t_fmt_info *info, char *buf, size_t *p_len);
+int		ftp_conv_x(unsigned int i, t_fmt_info *info, char *buf, size_t *p_len);
 int		ftp_check_len_cnt(size_t *p, size_t buf, size_t va, t_fmt_info *info);
-int		ftp_puts_c_s(char *str, t_fmt_info *info, size_t len);
+int		ftp_puts_c_s(char *str, t_fmt_info *info, size_t s_len);
 int		ftp_puts_d_i(char *str, t_fmt_info *ifo, size_t in, size_t ptn);
 int		ftp_puts_p(char *str, t_fmt_info *ifo, size_t un, size_t ptn);
 int		ftp_puts_u(char *str, t_fmt_info *ifo, size_t un, size_t ptn);
+int		ftp_fputs_x(char *str, t_fmt_info *ifo, size_t sn, size_t ptn);
 int		ftp_put_flags_plus_space(t_fmt_info *info);
+int		ftp_put_flag_sharp(t_fmt_info *info);
 ssize_t	ftp_puts_character(char c, size_t len);
-// ssize_t	ftp_conv_u(unsigned long long uint, char *buf, size_t *p_len);
-ssize_t	ftp_conv_x(unsigned int i, int c, char *buf, size_t *p_len);
 ssize_t	ftp_free_null(char **s);
 int		ftp_atoi_count(const char *str, size_t *digit);
 char	*ftp_itoa_count(int n, size_t *cnt);

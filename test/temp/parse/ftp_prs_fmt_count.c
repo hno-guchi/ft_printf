@@ -6,36 +6,26 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:37:08 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/06 21:24:51 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/06/28 15:29:13 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
+#include "sample.h"
 
 static void	check_parsed_format_info(t_fmt_info *info)
 {
-	char	conversion;
-
-	conversion = (char)info->conversion;
-	if (ft_strchr("csdiu", conversion) != NULL)
-		info->bit_flag &= ~(1 << 0);
-	if (ft_strchr("cspuxX", conversion) != NULL)
-	{
-		info->bit_flag &= ~(1 << 2);
-		info->bit_flag &= ~(1 << 3);
-		if (info->conversion == 'p')
-			info->bit_flag |= (1 << 0);
-	}
-	if ((info->precision != -1 && ft_strchr("pdiuxX", conversion) != NULL)
-		|| (info->bit_flag & (1 << 1)))
+	if (((info->bit_flag & (1 << 1)) || -1 < info->precision)
+			&& info->conversion != '%')
 		info->bit_flag &= ~(1 << 4);
 	if (info->bit_flag & (1 << 2))
 		info->bit_flag &= ~(1 << 3);
 	if (info->width & (1 << 31))
 		info->width &= ~(1 << 31);
-	if (info->precision & (1 << 31))
-		info->precision = -1;
+	// if (info->width < 0)
+	// 	info->width *= -1;
+	return ;
 }
 
 static size_t	prs_fmt_count(const char *save, va_list args, t_fmt_info *info)
@@ -60,6 +50,7 @@ static void	initialize_format_info(t_fmt_info *info)
 	info->conversion = 0;
 }
 
+// size_t	ftp_parse_format(const char *save, va_list args, t_fmt_info *info)
 size_t	ftp_prs_fmt_count(const char *save, va_list args, t_fmt_info *info)
 {
 	size_t	i;
@@ -68,6 +59,7 @@ size_t	ftp_prs_fmt_count(const char *save, va_list args, t_fmt_info *info)
 	i = 1;
 	move_i = 0;
 	initialize_format_info(info);
+	// while (save[i] != '\0' && !ft_strchr(CONVERSIONS, save[i]))
 	while (save[i] != '\0')
 	{
 		if (ft_strchr(CONVERSIONS, save[i]) != NULL)
@@ -106,8 +98,7 @@ void	check_function_printf(const char *input, ...)
 	printf("\n----- save[%s] -----\n", save);
 	printf("move_i     = [%d]\n", move_i);
 	size_t	n = 0;
-	printf("bit_flag   = [%d] = [%s]\n",
-		format_info->bit_flag, ftp_ull_itoa_base(format_info->bit_flag, 2, &n));
+	printf("bit_flag   = [%d] = [%s]\n", format_info->bit_flag, ftp_ull_itoa_base(format_info->bit_flag, 2, &n));
 	printf("width      = [%d]\n", format_info->width);
 	printf("precision  = [%d]\n", format_info->precision);
 	printf("conversion = [%c]\n", (char)format_info->conversion);
