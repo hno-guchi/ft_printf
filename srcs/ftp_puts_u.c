@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 12:16:22 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/05 21:48:09 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/07/06 09:49:01 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ static int	puts_precision_str(char *str, size_t in, size_t ptn)
 
 static int	puts_nflag_minus(char *str, t_fmt_info *ifo, size_t in, size_t ptn)
 {
-	// if (write(1, "0x", 2) == -1)
-	// 	return (-1);
 	if ((0 < ifo->width) && (ifo->bit_flag & (1 << 4)))
 		if (ftp_puts_character('0', (size_t)ifo->width - in) == -1)
 			return (-1);
@@ -45,8 +43,6 @@ static int	puts_nflag_minus(char *str, t_fmt_info *ifo, size_t in, size_t ptn)
 
 static int	puts_flag_minus(char *str, size_t in, size_t ptn)
 {
-	// if (write(1, "0x", 2) == -1)
-	// 	return (-1);
 	if (in < ptn)
 	{
 		if (puts_precision_str(str, in, ptn) == -1)
