@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 15:51:51 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/05 21:11:43 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/07/06 21:28:54 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,40 +24,16 @@ int	ftp_slt_conv(va_list args, t_fmt_info *info, char *buf, size_t *p_len)
 		error_flag = ftp_conv_percent('%', info, buf, p_len);
 	else if (info->conversion == 's')
 		error_flag = ftp_conv_s(va_arg(args, char *), info, buf, p_len);
-	else if (info->conversion == 'p')
-		error_flag = ftp_conv_p(va_arg(args, void *), info, buf, p_len);
 	else if (info->conversion == 'd' || info->conversion == 'i')
 		error_flag = ftp_conv_d_i(va_arg(args, int), info, buf, p_len);
 	else if (info->conversion == 'u')
 		error_flag = ftp_conv_u(
 				va_arg(args, unsigned long long), info, buf, p_len);
-/*
+	else if (info->conversion == 'p')
+		error_flag = ftp_conv_p(va_arg(args, void *), info, buf, p_len);
 	else if (info->conversion == 'x')
-		error_flag = ftp_conv_x(va_arg(args, unsigned int), 'x', info, fmt_len);
+		error_flag = ftp_conv_x(va_arg(args, unsigned int), info, buf, p_len);
 	else if (info->conversion == 'X')
-		error_flag = ftp_conv_x(va_arg(args, unsigned int), 'X', info, fmt_len);
-*/
+		error_flag = ftp_conv_x(va_arg(args, unsigned int), info, buf, p_len);
 	return (error_flag);
 }
-
-/*
-	// if ([0] != '%')
-	// 	move_i += ftp_not_conversions(buf, p_len);
-	if (info->conversion == 'c')
-		format_str = ftp_conv_c(va_arg(args, int), info, fmt_len);
-	else if (info->conversion == '%')
-		move_i += ftp_conv_c('%', buf, p_len);
-	else if (info->conversion == 's')
-		move_i += ftp_conv_s(va_arg(args, char *), buf, p_len);
-	else if (info->conversion == 'p')
-		move_i += ftp_conv_p((unsigned long long)va_arg(args, void *), buf, p_len);
-	else if (save[0] == '%' && (save[1] == 'd' || save[1] == 'i'))
-		move_i += ftp_conv_d_i(va_arg(args, int), buf, p_len);
-	else if (info->conversion == 'u')
-		move_i += ftp_conv_u(va_arg(args, unsigned long long), buf, p_len);
-	else if (info->conversion == 'x')
-		move_i += ftp_conv_x(va_arg(args, unsigned int), 'x', buf, p_len);
-	else if (info->conversion == 'X')
-		move_i += ftp_conv_x(va_arg(args, unsigned int), 'X', buf, p_len);
-	return (move_i);
-*/
