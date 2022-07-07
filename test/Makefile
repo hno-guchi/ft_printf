@@ -1,8 +1,6 @@
 # CFLAGS = -Wall -Wextra -Werror
 INCLUDE = -I../includes
 
-<<<<<<< HEAD
-=======
 c_leaks: fclean
 	gcc $(INCLUDE) ./c/main.c ./c/official_printf.c ./c/my_printf.c -L../ -lftprintf
 	./a.out my leaks > my.txt
@@ -27,7 +25,6 @@ s_fsanitize: fclean
 	./a.out official > official.txt
 	diff my.txt official.txt
 
->>>>>>> develop
 d_leaks: fclean
 	gcc $(INCLUDE) ./d/ft_leaks.c -L../ -lftprintf
 	./a.out > ftp.txt
@@ -43,29 +40,6 @@ d_fsanitize: fclean
 	diff ftp.txt p.txt
 
 p_leaks: fclean
-<<<<<<< HEAD
-	gcc $(INCLUDE) ./p/ft_leaks.c -L../ -lftprintf
-	./a.out > ftp.txt
-	gcc ./p/leaks.c
-	./a.out > p.txt
-	diff ftp.txt p.txt
-
-p_fsanitize: fclean
-	gcc -g -fsanitize=address $(INCLUDE) ./p/ft_fsanitize.c -L../ -lftprintf
-	./a.out > ftp.txt
-	gcc -g -fsanitize=address ./p/fsanitize.c
-	./a.out > p.txt
-	diff ftp.txt p.txt
-
-vdiff: ftp.txt p.txt
-	vimdiff $^
-
-clean:
-	$(RM) ftp.txt p.txt
-fclean: clean
-	$(RM) a.out
-.PHONY: d vdiff clean fclean
-=======
 	gcc $(INCLUDE) ./p/main.c ./p/official_printf.c ./p/my_printf.c -L../ -lftprintf
 	./a.out my leaks > my.txt
 	./a.out official leaks > official.txt
@@ -121,4 +95,3 @@ clean:
 fclean: clean
 	$(RM) -r a.out a.out.dSYM
 .PHONY: d_leaks d_fsanitize p_leaks p_fsanitize u_leaks u_fsanitize x_leaks x_fsanitize X_leaks X_fsanitize vdiff clean fclean
->>>>>>> develop
