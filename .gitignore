@@ -55,7 +55,6 @@ printfTester
 ft_printf_tester
 my_printfTester
 sample
-main.c
 test.c
 bit.c
 v1
