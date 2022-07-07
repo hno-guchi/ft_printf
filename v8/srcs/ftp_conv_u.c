@@ -6,43 +6,29 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:57:13 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/07 16:07:30 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/07/06 09:48:37 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-static int	puts_not_width(char *uint_str, size_t uint_len, size_t puts_len)
+static int	puts_not_width(char *str, size_t in, size_t ptn)
 {
 	size_t	puts_prec_len;
 
 	puts_prec_len = 0;
-	if (uint_len < puts_len)
+	if (in < ptn)
 	{
-		puts_prec_len = puts_len - uint_len;
-		if (ftp_puts_char('0', puts_prec_len) == -1)
+		puts_prec_len = ptn - in;
+		if (ftp_puts_character('0', puts_prec_len) == -1)
 			return (-1);
-		if (write(1, uint_str, (puts_len - puts_prec_len)) == -1)
+		if (write(1, str, (ptn - puts_prec_len)) == -1)
 			return (-1);
 	}
 	else
-		if (write(1, uint_str, uint_len) == -1)
+		if (write(1, str, in) == -1)
 			return (-1);
-	return (1);
-}
-
-static int	puts_u(char *uint_str,
-		t_fmt_info *info, size_t uint_len, size_t puts_len)
-{
-	if (puts_len < (size_t)info->width)
-	{
-		if (ftp_fputs_u(uint_str, info, uint_len, puts_len) == -1)
-			return (ftp_free_null(&uint_str));
-	}
-	else
-		if (puts_not_width(uint_str, uint_len, puts_len) == -1)
-			return (ftp_free_null(&uint_str));
 	return (1);
 }
 
@@ -64,13 +50,13 @@ static size_t	adjust_info_puts_len(t_fmt_info *info,
 	return (puts_len);
 }
 
-static char	*unsigned_itoa_count(unsigned int uint, size_t *len)
+static char	*unsigned_itoa_count(unsigned int n, size_t *len)
 {
 	char			*str;
 	unsigned int	tmp;
 	size_t			digit;
 
-	tmp = uint;
+	tmp = n;
 	digit = 1;
 	while (9 < tmp)
 	{
@@ -85,13 +71,13 @@ static char	*unsigned_itoa_count(unsigned int uint, size_t *len)
 	while (0 < digit)
 	{
 		digit -= 1;
-		str[digit] = (uint % 10) + '0';
-		uint /= 10;
+		str[digit] = (n % 10) + '0';
+		n /= 10;
 	}
 	return (str);
 }
 
-int	ftp_conv_u(unsigned long long ulli,
+int	ftp_conv_u(unsigned long long uint,
 		t_fmt_info *info, char *buf, size_t *p_len)
 {
 	size_t	buf_len;
@@ -99,19 +85,23 @@ int	ftp_conv_u(unsigned long long ulli,
 	size_t	puts_len;
 	char	*uint_str;
 
-	if (!ulli)
-		ulli = 0;
 	buf_len = ft_strlen(buf);
-	uint_str = unsigned_itoa_count((unsigned int)ulli, &uint_len);
+	uint_str = unsigned_itoa_count((unsigned int)uint, &uint_len);
 	if (uint_str == NULL)
 		return (-1);
-	puts_len = adjust_info_puts_len(info, (unsigned int)ulli, &uint_len);
-	if (ftp_check_len_count(p_len, buf_len, puts_len, info) == -1)
+	puts_len = adjust_info_puts_len(info, (unsigned int)uint, &uint_len);
+	if (ftp_check_len_cnt(p_len, buf_len, puts_len, info) == -1)
 		return (ftp_free_null(&uint_str));
 	if (write(1, buf, buf_len) == -1)
 		return (ftp_free_null(&uint_str));
-	if (puts_u(uint_str, info, uint_len, puts_len) == -1)
-		return (ftp_free_null(&uint_str));
+	if (puts_len < (size_t)info->width)
+	{
+		if (ftp_puts_u(uint_str, info, uint_len, puts_len) == -1)
+			return (ftp_free_null(&uint_str));
+	}
+	else
+		if (puts_not_width(uint_str, uint_len, puts_len) == -1)
+			return (ftp_free_null(&uint_str));
 	(void)ftp_free_null(&uint_str);
 	return (1);
 }

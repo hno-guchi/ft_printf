@@ -6,7 +6,7 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:18:52 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/07 14:27:41 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/07/02 12:45:23 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ftp_scanning_count(const char *save, va_list args, size_t *print_len)
 		if (buf == NULL)
 			return (-1);
 		i += buf_len;
-		move_i = ftp_check_has_fmt(&save[i], args, buf, print_len);
+		move_i = ftp_chk_has(&save[i], args, buf, print_len);
 		(void)ftp_free_null(&buf);
 		if (move_i == -1)
 			return (-1);

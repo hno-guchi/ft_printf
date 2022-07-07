@@ -6,54 +6,39 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:53:38 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/07 16:08:04 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/07/05 21:07:24 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-static int	puts_not_width(char *i_str,
-		t_fmt_info *info, size_t i_len, size_t puts_len)
+static int	puts_not_width(char *str, t_fmt_info *ifo, size_t in, size_t ptn)
 {
 	size_t	sign;
 	size_t	puts_prec_len;
 
 	sign = 0;
 	puts_prec_len = 0;
-	if (ftp_puts_flags(info, 23) == -1)
+	if (ftp_put_flags_plus_space(ifo) == -1)
 		return (-1);
-	if (i_len < puts_len)
+	if (in < ptn)
 	{
-		puts_prec_len = puts_len - i_len;
-		if (i_str[0] == '-')
+		puts_prec_len = ptn - in;
+		if (str[0] == '-')
 		{
-			if (write(1, &i_str[0], 1) == -1)
+			if (write(1, &str[0], 1) == -1)
 				return (-1);
 			sign += 1;
 		}
-		if (ftp_puts_char('0', puts_prec_len) == -1)
+		if (ftp_puts_character('0', puts_prec_len) == -1)
 			return (-1);
-		if (write(1, &i_str[sign], (puts_len - sign - puts_prec_len)) == -1)
+		if (write(1, &str[sign], (ptn - sign - puts_prec_len)) == -1)
 			return (-1);
 	}
 	else
-		if (write(1, i_str, i_len) == -1)
+		if (write(1, str, in) == -1)
 			return (-1);
-	return (1);
-}
-
-static int	puts_d_i(char *i_str,
-		t_fmt_info *info, size_t i_len, size_t puts_len)
-{
-	if (puts_len < (size_t)info->width)
-	{
-		if (ftp_fputs_d_i(i_str, info, i_len, puts_len) == -1)
-			return (ftp_free_null(&i_str));
-	}
-	else
-		if (puts_not_width(i_str, info, i_len, puts_len) == -1)
-			return (ftp_free_null(&i_str));
 	return (1);
 }
 
@@ -90,19 +75,23 @@ int	ftp_conv_d_i(int i, t_fmt_info *info, char *buf, size_t *p_len)
 	size_t	puts_len;
 	char	*i_str;
 
-	if (!i)
-		i = 0;
 	buf_len = ft_strlen(buf);
 	i_str = ftp_itoa_count(i, &i_len);
 	if (i_str == NULL)
 		return (-1);
 	puts_len = adjust_info_puts_len(info, i, &i_len);
-	if (ftp_check_len_count(p_len, buf_len, puts_len, info) == -1)
+	if (ftp_check_len_cnt(p_len, buf_len, puts_len, info) == -1)
 		return (ftp_free_null(&i_str));
 	if (write(1, buf, buf_len) == -1)
 		return (ftp_free_null(&i_str));
-	if (puts_d_i(i_str, info, i_len, puts_len) == -1)
-		return (ftp_free_null(&i_str));
+	if (puts_len < (size_t)info->width)
+	{
+		if (ftp_puts_d_i(i_str, info, i_len, puts_len) == -1)
+			return (ftp_free_null(&i_str));
+	}
+	else
+		if (puts_not_width(i_str, info, i_len, puts_len) == -1)
+			return (ftp_free_null(&i_str));
 	(void)ftp_free_null(&i_str);
 	return (1);
 }
