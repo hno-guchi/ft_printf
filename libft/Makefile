@@ -31,7 +31,7 @@ bonus:
 
 clean:
 		$(RM) $(OBJS) $(BONUS_OBJS)
-fclean:
+fclean: clean
 		$(RM) $(NAME)
 re:	fclean all
 
