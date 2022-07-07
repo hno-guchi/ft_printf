@@ -6,35 +6,35 @@
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:24:56 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/07 13:53:23 by hnoguchi         ###   ########.fr       */
+/*   Updated: 2022/07/06 21:22:31 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-int	ftp_conv_s(char *str, t_fmt_info *info, char *buf, size_t *p_len)
+int	ftp_conv_s(char *va_s, t_fmt_info *info, char *buf, size_t *p_len)
 {
 	size_t	buf_len;
-	size_t	s_len;
+	size_t	va_len;
 
-	if (str == NULL)
-		str = "(null)";
+	if (va_s == NULL)
+		va_s = "(null)";
 	buf_len = ft_strlen(buf);
-	s_len = ft_strlen(str);
-	if (info->precision != -1 && (size_t)info->precision < s_len)
-		s_len = (size_t)info->precision;
-	if (ftp_check_len_count(p_len, buf_len, s_len, info) == -1)
+	va_len = ft_strlen(va_s);
+	if (info->precision != -1 && (size_t)info->precision < va_len)
+		va_len = (size_t)info->precision;
+	if (ftp_check_len_cnt(p_len, buf_len, va_len, info) == -1)
 		return (-1);
 	if (write(1, buf, buf_len) == -1)
 		return (-1);
-	if (s_len < (size_t)info->width)
+	if (va_len < (size_t)info->width)
 	{
-		if (ftp_fputs_c_s(str, info, s_len) == -1)
+		if (ftp_puts_c_s(va_s, info, va_len) == -1)
 			return (-1);
 	}
 	else
-		if (write(1, str, s_len) == -1)
+		if (write(1, va_s, va_len) == -1)
 			return (-1);
 	return (1);
 }

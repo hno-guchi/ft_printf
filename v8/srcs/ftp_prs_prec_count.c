@@ -1,34 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_conv_c.c                                       :+:      :+:    :+:   */
+/*   ftp_prs_prec_count.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/08 11:19:59 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/07 13:52:45 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/06/28 14:27:06 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/06/29 18:50:11 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-int	ftp_conv_c(char c, t_fmt_info *info, char *buf, size_t *p_len)
+size_t	ftp_prs_prec_count(const char *save, va_list args, t_fmt_info *info)
 {
-	size_t	buf_len;
+	size_t	i;
 
-	buf_len = ft_strlen(buf);
-	if (ftp_check_len_count(p_len, buf_len, 1, info) == -1)
-		return (-1);
-	if (write(1, buf, buf_len) == -1)
-		return (-1);
-	if (1 < (size_t)info->width)
+	i = 0;
+	if (save[i] == '.')
 	{
-		if (ftp_fputs_c_s(&c, info, 1) == -1)
-			return (-1);
+		i += 1;
+		if (ft_isdigit(save[i]))
+			info->precision = ftp_atoi_count(&save[i], &i);
+		else if (save[i] == '*')
+		{
+			info->precision = va_arg(args, int);
+			if (info->precision < 0)
+				info->precision = -1;
+			i += 1;
+		}
+		else
+			info->precision = 0;
 	}
-	else
-		if (write(1, &c, 1) == -1)
-			return (-1);
-	return (1);
+	return (i);
 }

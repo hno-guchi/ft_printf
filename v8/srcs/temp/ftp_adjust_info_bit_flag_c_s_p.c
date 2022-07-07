@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_conv_c.c                                       :+:      :+:    :+:   */
+/*   ftp_adjust_info_bit_flag_c_s_p.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/08 11:19:59 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/07 13:52:45 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/07/01 10:07:49 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/07/05 14:36:13 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-int	ftp_conv_c(char c, t_fmt_info *info, char *buf, size_t *p_len)
+void	ftp_adjust_info_bit_flag_c_s_p(t_fmt_info *info)
 {
-	size_t	buf_len;
+	char	conversion;
 
-	buf_len = ft_strlen(buf);
-	if (ftp_check_len_count(p_len, buf_len, 1, info) == -1)
-		return (-1);
-	if (write(1, buf, buf_len) == -1)
-		return (-1);
-	if (1 < (size_t)info->width)
+	conversion = info->conversion;
+	if (ft_strchr("csp", conversion) != NULL)
 	{
-		if (ftp_fputs_c_s(&c, info, 1) == -1)
-			return (-1);
+		if (conversion != 'p' && info->bit_flag & (1 << 0))
+			info->bit_flag &= ~(1 << 0);
+		if (info->bit_flag & (1 << 2))
+			info->bit_flag &= ~(1 << 2);
+		if (info->bit_flag & (1 << 3))
+			info->bit_flag &= ~(1 << 3);
 	}
-	else
-		if (write(1, &c, 1) == -1)
-			return (-1);
-	return (1);
+	if (conversion == 'p')
+			info->bit_flag |= (1 << 0);
+	return ;
 }

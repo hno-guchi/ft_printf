@@ -1,34 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_conv_c.c                                       :+:      :+:    :+:   */
+/*   ftp_puts_character.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnoguchi <hnoguchi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/08 11:19:59 by hnoguchi          #+#    #+#             */
-/*   Updated: 2022/07/07 13:52:45 by hnoguchi         ###   ########.fr       */
+/*   Created: 2022/07/01 20:32:35 by hnoguchi          #+#    #+#             */
+/*   Updated: 2022/07/07 08:56:38 by hnoguchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-int	ftp_conv_c(char c, t_fmt_info *info, char *buf, size_t *p_len)
+ssize_t	ftp_puts_char(char c, size_t len)
 {
-	size_t	buf_len;
+	size_t	i;
+	char	*zero_str;
 
-	buf_len = ft_strlen(buf);
-	if (ftp_check_len_count(p_len, buf_len, 1, info) == -1)
-		return (-1);
-	if (write(1, buf, buf_len) == -1)
-		return (-1);
-	if (1 < (size_t)info->width)
+	i = 0;
+	if (100 < len)
 	{
-		if (ftp_fputs_c_s(&c, info, 1) == -1)
+		zero_str = (char *)ft_calloc(len + 1, sizeof(char));
+		if (zero_str == NULL)
 			return (-1);
+		(void)ft_memset(zero_str, c, len);
+		if (write(1, zero_str, len) == -1)
+			return (ftp_free_null(&zero_str));
+		i = len;
+		(void)ftp_free_null(&zero_str);
 	}
 	else
-		if (write(1, &c, 1) == -1)
-			return (-1);
-	return (1);
+	{
+		while (i < len)
+		{
+			if (write(1, &c, 1) == -1)
+				return (-1);
+			i += 1;
+		}
+	}
+	return (i);
 }
