@@ -27,7 +27,7 @@ int main(void) {
 コンパイル:
 
 ```sh
-gcc -Wall -Wextra -Werror main.c -L. -lftprintf -o my_program
+gcc -Wall -Wextra -Werror main.c -L. -lftprintf -o [my_program]
 ```
 
 ## 変換指定子
